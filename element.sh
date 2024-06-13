@@ -10,11 +10,13 @@ fi
 
 # Determine if argument is atomic number, symbol, or name
 if [[ $ELEMENT -gt 0 ]]
-then
+  then
 # Query element info by atomic number
-  ELEMENT_INFO=$($PSQL "SELECT e.atomic_number, e.name, e.symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e JOIN properties ON properties.atomic_number = e.atomic_number JOIN types ON types.type_id = properties.type_id WHERE e.atomic_number = $ELEMENT")
+    ELEMENT_INFO=$($PSQL "SELECT e.atomic_number, e.name, e.symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e JOIN properties ON properties.atomic_number = e.atomic_number JOIN types ON types.type_id = properties.type_id WHERE e.atomic_number = $ELEMENT")
 # Query element info by symbol
-
+  elif [[ ${#ELEMENT} -lt 3 ]]
+  then
+    ELEMENT_INFO=$($PSQL "SELECT e.atomic_number, e.name, e.symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e JOIN properties ON properties.atomic_number = e.atomic_number JOIN types ON types.type_id = properties.type_id WHERE e.symbol = '$ELEMENT'")
 # Query element info by name
 
 fi
