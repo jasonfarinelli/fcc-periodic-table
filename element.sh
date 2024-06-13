@@ -18,7 +18,8 @@ if [[ $ELEMENT -gt 0 ]]
   then
     ELEMENT_INFO=$($PSQL "SELECT e.atomic_number, e.name, e.symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e JOIN properties ON properties.atomic_number = e.atomic_number JOIN types ON types.type_id = properties.type_id WHERE e.symbol = '$ELEMENT'")
 # Query element info by name
-
+  else
+    ELEMENT_INFO=$($PSQL "SELECT e.atomic_number, e.name, e.symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e JOIN properties ON properties.atomic_number = e.atomic_number JOIN types ON types.type_id = properties.type_id WHERE e.name = '$ELEMENT'")
 fi
 # If no results, show message
 if [[ -z $ELEMENT_INFO ]]
